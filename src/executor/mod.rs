@@ -64,6 +64,7 @@ impl Executor {
             Token::Star => a * b,
             Token::Slash => a / b,
             Token::Percent => a % b,
+            Token::StarStar => a.powf(b),
             _ => {
                 println!("Invalid Binary Operator {:?}", token);
 

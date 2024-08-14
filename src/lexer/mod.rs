@@ -60,7 +60,15 @@ impl <'a> Lexer<'a> {
         return match self.consume() {
             '+' => Token::Plus,
             '-' => Token::Minus,
-            '*' => Token::Star,
+            '*' => {
+                if self.current_char() == '*' {
+                    self.consume();
+
+                    Token::StarStar
+                } else {
+                    Token::Star
+                }
+            }
             '/' => Token::Slash,
             '%' => Token::Percent,
 

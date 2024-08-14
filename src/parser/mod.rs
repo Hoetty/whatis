@@ -77,11 +77,28 @@ impl Parser {
     }
 
     pub fn mult_div_rem(&mut self) -> Expression {
-        let mut expression = self.unary();
+        let mut expression = self.pow();
 
         loop {
             let token = self.current_token();
             if !(token == Token::Star || token == Token::Slash || token == Token::Percent) {
+                break;
+            }
+
+            self.consume();
+
+            expression = Expression::Binary(Box::new(expression), token, Box::new(self.pow()));
+        }
+
+        expression
+    }
+
+    pub fn pow(&mut self) -> Expression {
+        let mut expression = self.unary();
+
+        loop {
+            let token = self.current_token();
+            if !(token == Token::StarStar) {
                 break;
             }
 
