@@ -67,6 +67,8 @@ impl <'a> Lexer<'a> {
             '(' => Token::LeftParen,
             ')' => Token::RightParen,
 
+            ',' => Token::Comma,
+
             v => {
                 self.had_error = true;
                 println!("Invalid Operator {}", v);

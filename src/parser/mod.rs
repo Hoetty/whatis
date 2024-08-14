@@ -81,7 +81,7 @@ impl Parser {
 
         loop {
             let token = self.current_token();
-            if !(token == Token::Star || token == Token::Slash) {
+            if !(token == Token::Star || token == Token::Slash || token == Token::Percent) {
                 break;
             }
 
@@ -126,14 +126,23 @@ impl Parser {
             }
         }
 
-        Expression::Call(Box::new(expression), params)
+        match expression {
+            Expression::Identifier(s) => Expression::Call(s, params),
+            e => {
+                println!("Invalid calle {:?}", e);
+
+                Expression::Invalid
+            }
+        }
+
+        
     }
 
     pub fn value(&mut self) -> Expression {
         let token = self.consume();
         match token {
-            Token::Identifier(_) => Expression::Identifier(token),
-            Token::Value(_) => Expression::Value(token),
+            Token::Identifier(s) => Expression::Identifier(s),
+            Token::Value(v) => Expression::Value(v),
             _ => {
                 println!("Can't parse Token {:?}", token);
                 self.had_error = true;

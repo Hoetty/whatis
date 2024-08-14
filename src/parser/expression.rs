@@ -6,10 +6,10 @@ pub enum Expression {
     Binary(Box<Expression>, Token, Box<Expression>),
     Group(Box<Expression>),
 
-    Call(Box<Expression>, Vec<Expression>),
+    Call(String, Vec<Expression>),
 
-    Identifier(Token),
-    Value(Token),
+    Identifier(String),
+    Value(f64),
 
     Invalid,
 }

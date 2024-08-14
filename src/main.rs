@@ -1,6 +1,7 @@
 use std::{env, io};
 
-use lexer::lex;
+use executor::evaluate_expression;
+use lexer::{lex, token::Token};
 use parser::parse;
 
 pub mod lexer;
@@ -8,11 +9,7 @@ pub mod parser;
 pub mod executor;
 
 fn main() {
-    let args: Vec<String> = env::args()
-        .enumerate()
-        .filter(|&(i, _)| i != 0)
-        .map(|(_, e)| e)
-        .collect();
+    let args: Vec<String> = env::args().collect::<Vec<_>>()[1..].to_vec();
 
     if args.len() == 0 {
         repl();
@@ -39,7 +36,11 @@ fn execute(expression: &str) {
             e.tokens
         }
     };
-    println!("{:?}", tokens);
+    // println!("{:?}", tokens);
+
+    if let [Token::Eof] = tokens[..] {
+        return;
+    }
 
     if error {
         return;
@@ -53,10 +54,12 @@ fn execute(expression: &str) {
             e.expression
         }
     };
-    println!("{:?}", expression);
+    // println!("{:?}", expression);
 
     if error {
         return;
     }
 
+    let value = evaluate_expression(expression);
+    println!("{}", value);
 }
