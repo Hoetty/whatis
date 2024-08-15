@@ -10,7 +10,7 @@ Quickly calculate small expressions or open a REPL to calculate multiple express
 4
 3 + 4
 7
-> whatis "sin(pi)" # Expressions with functions need to be enclosed in quotation marks
+> whatis "sin(pi) * 2" # Expressions with functions and * and ** need to be enclosed in quotation marks due to how the shell works
 ```
 
 Supports a number of operators
